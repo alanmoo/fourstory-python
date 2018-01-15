@@ -11,6 +11,19 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import environ
+
+env = environ.Env(DEBUG=(bool, False),)  # set default values and casting
+
+# Read in the environment
+if os.path.exists('.env') is True:
+    environ.Env.read_env('.env')
+else:
+    environ.Env.read_env()
+
+CLIENT_ID = env('CLIENT_ID')
+CLIENT_SECRET = env('CLIENT_SECRET')
+REDIRECT_URI = env('REDIRECT_URI')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,7 +36,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '^1a4kjx4-y&g%s5*7-#!6gj1bn80a&#i1h7v&$-lm3ec!h=m#y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -53,17 +66,17 @@ ROOT_URLCONF = 'fourstory.urls'
 
 TEMPLATES = [
     {
-	'BACKEND': 'django.template.backends.django.DjangoTemplates',
-	'DIRS': [],
-	'APP_DIRS': True,
-	'OPTIONS': {
-	    'context_processors': [
-		'django.template.context_processors.debug',
-		'django.template.context_processors.request',
-		'django.contrib.auth.context_processors.auth',
-		'django.contrib.messages.context_processors.messages',
-	    ],
-	},
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+	'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
     },
 ]
 
@@ -75,8 +88,8 @@ WSGI_APPLICATION = 'fourstory.wsgi.application'
 
 DATABASES = {
     'default': {
-	'ENGINE': 'django.db.backends.sqlite3',
-	'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -86,16 +99,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-	'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-	'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-	'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-	'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
