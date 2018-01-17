@@ -1,0 +1,10 @@
+<html>
+<head>
+</head>
+<body>
+  {{ user.user.id }}
+Your last checkin was in
+{% for checkin in checkins.checkins.items %}
+{{checkin.venue.location.city}}
+{% endfor %}
+</body>
